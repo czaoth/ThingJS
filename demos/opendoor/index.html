@@ -1,0 +1,166 @@
+﻿<html>
+
+<head>
+	<meta charset=utf-8>
+	<title>Thing 3D Sample</title>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	 crossorigin="anonymous"></script>
+	<script type="text/javascript" src="https://speech.uinnova.com/static/release/thing.js"></script>	
+	<script type="text/javascript" src="https://speech.uinnova.com/static/release/thing.widget.js"></script>	
+	<script>
+		var app; var biaoObj; var biaoObj2;
+		window.onload = function () {
+
+			app = new t3d.App({
+				container: "div3d",
+				appKey: 'app_test_key',
+				url: "https://speech.uinnova.com/static/models/boxroom",
+			});
+
+			app.on('load', function () {
+				var par = app.query('1234')[0].node.children[1];   // 机柜的前门
+				app.create({
+					type: 'Thing',
+					name: 'biao',
+					url: 'https://speech.uinnova.com/static/models/biao',
+					complete: function () {
+						console.log('biao created!');
+						biaoObj = this.node.children[0];
+						par.add(biaoObj);  // 把仪表的 object 对象取出
+						biaoObj.rotateX(1.5);
+						biaoObj.translateX(-0.3);
+						biaoObj.translateY(0.6);
+						biaoObj.translateZ(0.1);
+						
+						biaoObj.scale.x=3;
+						biaoObj.scale.y=3;
+						biaoObj.scale.z=1;
+					}
+				});
+				app.create({
+					type: 'Thing',
+					name: 'biao2',
+					url: 'https://speech.uinnova.com/static/models/biao',
+					position:[3,2,4],
+					complete: function () {
+						console.log('biao created!');
+						biaoObj2 = this.node.children[0];
+						
+						biaoObj2.scale.x=3;
+						biaoObj2.scale.y=3;
+						biaoObj2.scale.z=1;
+						
+						biaoObj2.visible=false;
+					}
+				});
+				
+				addMeter();
+			});
+			
+		}
+		
+		// 创建表盘
+			function addMeter() {
+				try{
+					biaoObj.visible=true;
+					biaoObj2.visible=false;
+				}catch(e){}
+				
+			}
+			
+			function delMeter() {
+				//var par = app.query('1234')[0].node.children[1];
+				//par.remove(biaoObj);
+				//biaoObj.position=[0,2,0];
+				//biaoObj.position.set(3,0,3)
+				try{
+					biaoObj.visible=false;
+					biaoObj2.visible=true;
+				}catch(e){}
+				
+			}
+	</script>
+</head>
+
+<body>
+
+	<div id="div3d"></div>
+
+	<script>
+		var num1=90;
+		var num2=63;
+	
+		var obj = {
+            radio: '安装仪表',
+            open1: false,
+            height: 10,
+            width: 20,
+            maxSize: num1,
+			maxSize1: num2,
+            iframe: true  
+        }
+        var gui = new dat.gui.GUI({
+            type: 'signboard2',
+            name: '控制面板',
+            isClose: false,
+            zIndex: 1000,
+            hasTitle: true,
+            media: true,
+			opacity: 0.8
+        });
+        gui.setPosition({ left: 15, top: 15 });
+        var wat=gui.addRadio(obj, 'radio', ['安装仪表', '卸载仪表']);
+        var cab=gui.add(obj, 'open1').name('打开机柜');
+        var val1=gui.add(obj, 'maxSize').name('仪表值-1').step(1).min(0).max(120).setText(true);
+		var val2=gui.add(obj, 'maxSize1').name('仪表值-2').step(1).min(0).max(100).setText(true);
+		
+		val1.onChange(function(num){
+			var diff=num-num1;
+			biaoObj.children[1].rotateZ(-diff/35);
+			num1=num;
+		});
+		
+		val2.onChange(function(num){
+			var diff=num-num2;
+			biaoObj.children[2].rotateZ(-diff/20);
+			num2=num;
+		});
+		
+		wat.onFinishChange(function(val){
+			if(val=='安装仪表'){
+				addMeter();
+			}else{
+				delMeter();
+			}
+		});
+		
+		cab.onChange(function(bool){
+			if (bool) {
+				var cabinet = app.query('1234')[0];
+				cabinet.playAnimation({
+					'name': ['open1'],
+					'reverse': false
+				});
+				//cabinet.angles = [45,45,0];
+			}else{
+				var cabinet = app.query('1234')[0];
+				cabinet.playAnimation({
+					'name': ['open1'],
+					'reverse': true
+				});
+			}
+		});
+	
+		$(function () {
+			var b1 = true;
+			var h = $(document).height();
+			var w = $(document).width();
+			$('#div3d').height(h);
+			$('#div3d').width(w);	
+			
+		});
+	</script>
+
+</body>
+
+</html>

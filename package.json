@@ -1,0 +1,20 @@
+{
+  "author": "Uinnova 3D Team <liuwei@uinnova.com> (http://www.thingjs.com)",
+  "name": "ThingJS",
+  "description": "ThingJS is JavaScript 3D Library.",
+  "version": "1.0.0",
+  "main": "./thing.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liuwei000000/thingjs.git"
+  },
+  "scripts": {
+
+  },
+  "engines": {
+    "node": "~8.11.1"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
