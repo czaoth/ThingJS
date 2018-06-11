@@ -1,20 +1,26 @@
 {
-  "author": "Uinnova 3D Team <liuwei@uinnova.com> (http://www.thingjs.com)",
-  "name": "ThingJS",
+  "name": "thingjs-3d",
+  "version": "1.0.1",
   "description": "ThingJS is JavaScript 3D Library.",
-  "version": "1.0.0",
-  "main": "./thing.js",
+  "main": "thing.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/liuwei000000/thingjs.git"
+    "url": "git+https://github.com/liuwei000000/thingjs.git"
   },
-  "scripts": {
-
+  "keywords": [
+    "3d",
+    "webgl",
+    "threejs",
+    "thingjs",
+    "iot"
+  ],
+  "author": "Uinnova 3D Team <liuwei@uinnova.com> (http://www.thingjs.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/liuwei000000/thingjs/issues"
   },
-  "engines": {
-    "node": "~8.11.1"
-  },
-  "dependencies": {},
-  "devDependencies": {},
-  "optionalDependencies": {}
+  "homepage": "https://github.com/liuwei000000/thingjs#readme"
 }
